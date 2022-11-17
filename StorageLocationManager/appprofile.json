@@ -1,0 +1,8 @@
+{
+  "StatusColors": {
+    "Empty": "#f7f7f7",
+    "Busy": "#5cb85c",
+    "TpsLessThan6Month": "#f0ad4e",
+    "TpsLessThan3Month": "#d9534f"
+  }
+}

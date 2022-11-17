@@ -1,0 +1,110 @@
+﻿<Window xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StorageLocationManager.View"
+        xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+        xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+        xmlns:viewModels="clr-namespace:ViewModel;assembly=ViewModel"
+        xmlns:viewModelsExt="clr-namespace:ViewModel.Extensions;assembly=ViewModel"
+        xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+        x:Class="StorageLocationManager.View.MainWindow"
+        DataContext="{viewModelsExt:DISource Type=viewModels:MainWindowViewModel}"
+        mc:Ignorable="d"
+        Title="MainWindow"
+        Height="450"
+        Width="800"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized">
+    <Grid>
+        <dxmvvm:Interaction.Behaviors>
+            <dx:DialogService x:Name="EditSettingsDialogService"
+                              SetWindowOwner="True"
+                              DialogWindowStartupLocation="CenterOwner">
+                <dx:DialogService.ViewTemplate>
+                    <DataTemplate>
+                        <local:EditSettingsUserControl />
+                    </DataTemplate>
+                </dx:DialogService.ViewTemplate>
+                <dx:DialogService.DialogStyle>
+                    <Style TargetType="dx:DXDialogWindow">
+                        <Setter Property="WindowStyle" Value="ToolWindow" />
+                        <Setter Property="Width" Value="400" />
+                        <Setter Property="Height" Value="300" />
+                        <Setter Property="ResizeMode" Value="NoResize" />
+                        <Setter Property="ShowIcon" Value="False" />
+                    </Style>
+                </dx:DialogService.DialogStyle>
+            </dx:DialogService>
+        </dxmvvm:Interaction.Behaviors>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <dxb:MainMenuControl
+            Grid.Row="0"
+            Grid.ColumnSpan="2">
+            <dxb:BarButtonItem
+                Content="Plik"/>
+            <dxb:BarButtonItem
+                Content="O Programie"/>
+            <dxb:BarButtonItem
+                Content="Ustawienia" Command="{Binding EditSettingsCommand}"/>
+        </dxb:MainMenuControl>
+
+        <Border Grid.Row="1" Grid.Column="0" Background="#f7f7f7">
+            <dxlc:LayoutControl IsEnabled="{Binding ContolsEnabled}">
+                <dxlc:LayoutGroup Header="MAGAZYN / REGAŁY" View="GroupBox" Orientation="Vertical">
+                    <dxlc:LayoutItem>
+                        <dxe:ComboBoxEdit ItemsSource="{Binding Wearehouses}" SelectedItem="{Binding CurrentWearehouse}" DisplayMember="NazwaMag" ValueMember="IdMagazyn">
+                            <dxmvvm:Interaction.Behaviors>
+                                <dxmvvm:EventToCommand EventName="SelectedIndexChanged" Command="{Binding CurrentWearehouseChangeCommand}"/>
+                            </dxmvvm:Interaction.Behaviors>
+                        </dxe:ComboBoxEdit>
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutGroup View="Group">
+                        <dxlc:LayoutItem>
+                            <dxe:ListBoxEdit ItemsSource="{Binding Racks}" SelectedItem="{Binding CurrentRack}">
+                                <dxmvvm:Interaction.Behaviors>
+                                    <dxmvvm:EventToCommand EventName="SelectedIndexChanged" Command="{Binding CurrentRackChangeCommand}"/>
+                                </dxmvvm:Interaction.Behaviors>
+                                <dxe:ListBoxEdit.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Regal, StringFormat='REGAŁ NR: {0}'}" Background="#5bc0de"/>
+                                            <TextBlock Text="{Binding IloscMiejsc, StringFormat='ILOŚĆ MIEJSC: {0}'}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </dxe:ListBoxEdit.ItemTemplate>
+                            </dxe:ListBoxEdit>
+                        </dxlc:LayoutItem>
+                    </dxlc:LayoutGroup>
+                </dxlc:LayoutGroup>
+            </dxlc:LayoutControl>
+        </Border>
+
+        <ContentControl Grid.Row="1" Grid.Column="1" Margin="5 5 5 5" Name="Pages">
+            <local:RackVisualizationUserControl/>
+        </ContentControl>
+
+        <dxb:StatusBarControl
+            Grid.Row="2"
+            Grid.ColumnSpan="2">
+            <dxb:BarButtonItem
+                Content="SYSTEMY PRESTIŻ"/>
+            <dxb:BarButtonItem
+                Content="{Binding LoggedUserName, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                Alignment="Far"
+                BarItemDisplayMode="ContentAndGlyph"
+                Glyph="{dx:DXImage Office2013/People/Employee_16x16.png}"/>
+        </dxb:StatusBarControl>
+    </Grid>
+</Window>

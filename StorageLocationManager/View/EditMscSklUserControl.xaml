@@ -1,0 +1,95 @@
+﻿<UserControl xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:viewModels="clr-namespace:ViewModel;assembly=ViewModel"
+             xmlns:viewModelsExt="clr-namespace:ViewModel.Extensions;assembly=ViewModel"
+             xmlns:local="clr-namespace:StorageLocationManager.View"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" x:Class="StorageLocationManager.View.EditMscSklUserControl"
+             mc:Ignorable="d" 
+             d:DesignHeight="330" d:DesignWidth="600">
+    <Grid>
+        <dxmvvm:Interaction.Behaviors>
+            <dxmvvm:CurrentWindowService />
+        </dxmvvm:Interaction.Behaviors>
+        <dxlc:LayoutControl >
+            <dxlc:LayoutGroup Header="DOSTAWY" View="GroupBox" Width="200" Height="303">
+                <dxlc:LayoutGroup View="Group">
+                    <dxlc:LayoutItem>
+                        <dxe:ListBoxEdit ItemsSource="{Binding Deliverys}" SelectedItem="{Binding CurrentDelivery}">
+                            <dxmvvm:Interaction.Behaviors>
+                                <dxmvvm:EventToCommand EventName="SelectedIndexChanged" Command="{Binding CurrentDeliveryChangeCommand}"/>
+                            </dxmvvm:Interaction.Behaviors>
+                            <dxe:ListBoxEdit.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Indeks, StringFormat='INDEKS: {0}'}"/>
+                                        <TextBlock Text="{Binding TPS, StringFormat='TPS: {0}'}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </dxe:ListBoxEdit.ItemTemplate>
+                        </dxe:ListBoxEdit>
+                    </dxlc:LayoutItem>
+                </dxlc:LayoutGroup>
+            </dxlc:LayoutGroup>
+            <dxlc:LayoutGroup Orientation="Vertical">
+                <dxlc:LayoutGroup Header="SZCZEGÓŁY DOSTAWY" View="GroupBox" Orientation="Vertical">
+                    <dxlc:LayoutItem Label="INDEKS">
+                        <dxe:TextEdit Text="{Binding CurrentDelivery.Indeks}" IsReadOnly="True"/>
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="NAZWA SKR">
+                        <dxe:TextEdit Text="{Binding CurrentDelivery.NazwaSkr}" IsReadOnly="True"/>
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="TPS">
+                        <dxe:DateEdit Text="{Binding CurrentDelivery.TPS}"/>
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="PARTIA">
+                        <dxe:TextEdit Text="{Binding CurrentDelivery.Partia, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutGroup>
+                        <dxlc:LayoutGroup Orientation="Vertical">
+                            <dxlc:LayoutItem Label="WAGA NETTO">
+                                <dxe:TextEdit Text="{Binding CurrentDelivery.WagaNetto}" IsReadOnly="True"/>
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label="DATA UBOJU">
+                                <dxe:DateEdit Text="{Binding CurrentDelivery.DataUboju}"/>
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label="OPAKOWANIE">
+                                <dxe:TextEdit Text="{Binding CurrentDelivery.RodzajOpakowania}" IsReadOnly="True"/>
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label="PALETA">
+                                <dxe:TextEdit Text="{Binding CurrentDelivery.RodzajPalety}" IsReadOnly="True"/>
+                            </dxlc:LayoutItem>
+                        </dxlc:LayoutGroup>
+                        <dxlc:LayoutGroup Orientation="Vertical">
+                            <dxlc:LayoutItem Label="WAGA BRUTTO">
+                                <dxe:TextEdit Text="{Binding CurrentDelivery.WagaBrutto}" IsReadOnly="True"/>
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label="DATA MROŻ">
+                                <dxe:DateEdit Text="{Binding CurrentDelivery.DataMrozenia}"/>
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label="ILE OPAK">
+                                <dxe:TextEdit Text="{Binding CurrentDelivery.IloscOpakowan}" IsReadOnly="True"/>
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label="T. PRZECHOW.">
+                                <dxe:SpinEdit Text="{Binding CurrentDelivery.TempPrzechowywania}" Increment="0.1"/>
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label="SUMA OPK">
+                                <dxe:TextEdit Text="{Binding CurrentDelivery.SumaOpk}" IsReadOnly="True"/>
+                            </dxlc:LayoutItem>
+                        </dxlc:LayoutGroup>
+                    </dxlc:LayoutGroup>
+                </dxlc:LayoutGroup>
+                <dxlc:LayoutGroup Header="LayoutGroup" View="Group">
+                    <dxlc:LayoutItem>
+                        <dx:SimpleButton Content="POTWIERDŹ" Glyph="{dx:DXImage Office2013/Actions/Apply_16x16.png}" Command="{Binding AcceptCommand}" IsEnabled="{Binding IsDataValid, UpdateSourceTrigger=PropertyChanged}"/>
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem>
+                        <dx:SimpleButton Content="ZAMKNIJ" Command="{Binding CancelCommand}" Glyph="{dx:DXImage Office2013/Actions/Close_16x16.png}"/>
+                    </dxlc:LayoutItem>
+                </dxlc:LayoutGroup>
+            </dxlc:LayoutGroup>
+        </dxlc:LayoutControl>
+    </Grid>
+</UserControl>

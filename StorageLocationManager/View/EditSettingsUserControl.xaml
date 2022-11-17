@@ -1,0 +1,47 @@
+﻿<UserControl xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:StorageLocationManager.View"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" x:Class="StorageLocationManager.View.EditSettingsUserControl"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="500">
+    <dxmvvm:Interaction.Behaviors>
+        <dxmvvm:CurrentWindowService />
+    </dxmvvm:Interaction.Behaviors>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+        <dx:DXTabControl Grid.Row="0">
+            <dx:DXTabItem Header="Style">
+                <StackPanel>
+                    <dxlc:LayoutControl >
+                        <dxlc:LayoutGroup Orientation="Vertical">
+                            <dxlc:LayoutItem Label="Miejsce Puste: ">
+                                <dxe:PopupColorEdit Color="{Binding EmptyColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label="Miejsce Zajęte: ">
+                                <dxe:PopupColorEdit Color="{Binding BusyColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label="TPS &lt; 6 Miesiące: ">
+                                <dxe:PopupColorEdit Color="{Binding TpsLessThan6MonthColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label="TPS &lt; 3 Miesiące: ">
+                                <dxe:PopupColorEdit Color="{Binding TpsLessThan3MonthColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </dxlc:LayoutItem>
+                        </dxlc:LayoutGroup>
+                    </dxlc:LayoutControl>
+                    <dx:SimpleButton Content="Przywróć domyślne" Command="{Binding ReturnDefaultCommand}" Glyph="{dx:DXImage Office2013/Actions/Reset_16x16.png}"/>
+                </StackPanel>
+            </dx:DXTabItem>
+        </dx:DXTabControl>
+
+        <dx:UniformStackPanel Grid.Row="1" Margin="3" VerticalAlignment="Center" HorizontalAlignment="Right">
+            <dx:SimpleButton Content="Zapisz" Command="{Binding AcceptCommand}" Glyph="{dx:DXImage Office2013/Save/Save_16x16.png}"/>
+            <dx:SimpleButton Content="Anuluj" Command="{Binding CancelCommand}" Glyph="{dx:DXImage Office2013/Actions/Close_16x16.png}"/>
+        </dx:UniformStackPanel>
+    </Grid>
+</UserControl>
